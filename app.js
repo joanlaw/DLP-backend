@@ -9,7 +9,7 @@ import decksRoutes from './routes/decks.routes.js'
 //import fileUpload from 'express-fileupload'
 
 const app = express()
-//const cors = require('cors')
+const cors = require('cors')
 
 
 // Configurar cabeceras y cors
@@ -21,8 +21,11 @@ const app = express()
 //  next();
 //});
 
+const whitelist =  ['http://localhost:3000', 'https://duellinks.pro']
 
-app.use(cors())
+app.use(cors({
+  origin: whitelist
+}))
 app.use(morgan('dev'))
 //app.use(fileUpload({
  //   useTempFiles : true,
