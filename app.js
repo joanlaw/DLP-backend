@@ -23,7 +23,9 @@ const app = express()
 
 //const whitelist =  ['http://localhost:3000', 'https://duellinks.pro'];
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://127.0.0.1:3000',
+}))
 app.use(morgan('dev'))
 //app.use(fileUpload({
  //   useTempFiles : true,
