@@ -32,9 +32,11 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(indexRoutes)
 app.use(cartasRoutes)
+
 app.use(decksRoutes)
 
 app.use((req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(404).send("Not Found");
   });
 
