@@ -9,7 +9,7 @@ import decksRoutes from './routes/decks.routes.js'
 //import fileUpload from 'express-fileupload'
 
 const app = express()
-//const cors = require('cors')
+const cors = require('cors')
 
 
 // Configurar cabeceras y cors
