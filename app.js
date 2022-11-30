@@ -29,14 +29,13 @@ app.use(morgan('dev'))
  //   useTempFiles : true,
 //    tempFileDir : './uploads'
 //}))
-app.use(express.json())
+//app.use(express.json())
 app.use(indexRoutes)
 app.use(cartasRoutes)
 
 app.use(decksRoutes)
 
 app.use((req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
     res.status(404).send("Not Found");
   });
 
