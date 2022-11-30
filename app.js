@@ -21,9 +21,11 @@ const cors = require('cors')
 //  next();
 //});
 
-//const whitelist =  ['http://localhost:3000', 'https://duellinks.pro'];
+const whitelist =  ['http://localhost:3000', 'https://duellinks.pro'];
 
-app.use(cors())
+app.use(cors({
+  origin: whitelist
+}))
 app.use(morgan('dev'))
 //app.use(fileUpload({
  //   useTempFiles : true,
