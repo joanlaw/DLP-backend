@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import indexRoutes from './routes/index.routes.js'
 import cartasRoutes from './routes/cards.routes.js'
 import decksRoutes from './routes/decks.routes.js'
+import cartasRoutes from './routes/cardsen.routes.js'
 //import fileUpload from 'express-fileupload'
 
 const app = express()
@@ -37,6 +38,8 @@ app.use(indexRoutes)
 app.use(cartasRoutes)
 
 app.use(decksRoutes)
+app.use(cartasRoutes)
+
 
 app.use((req, res) => {
     res.status(404).send("Not Found");
