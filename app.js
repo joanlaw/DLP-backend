@@ -22,4 +22,10 @@ app.use((req, res) => {
   res.status(404).send("Not Found");
 });
 
+// Middleware de manejo de errores
+app.use((err, req, res, next) => {
+  console.error(err); // Imprimir el error en la consola
+  res.status(500).json({ error: 'Internal Server Error' }); // Responder con un mensaje de error genérico
+});
+
 export default app;
