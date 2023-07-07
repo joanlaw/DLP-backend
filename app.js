@@ -9,7 +9,19 @@ import cardsRouter from './routes/cardsen.routes.js';
 
 const app = express();
 
-app.use(cors()); // Permitir todos los orígenes
+// Middleware para manejar CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use(morgan('dev'));
 
