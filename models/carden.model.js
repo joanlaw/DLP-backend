@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
 
-const cartaSchema = mongoose.Schema({
+const cardSchema = mongoose.Schema({
   nombre: {
     type: String,
     unique: true,
    // required: true,
     trim: true
   },
-  name: {
+  name_english: {
     type: String,
     unique: true,
    // required: true,
@@ -101,4 +101,4 @@ const cartaSchema = mongoose.Schema({
   timestamps: true
 })
 
-export default mongoose.model('Carta', cartaSchema)
+export default mongoose.model('Card', cardSchema)

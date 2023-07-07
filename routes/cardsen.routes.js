@@ -12,13 +12,13 @@ const cardsrouter = Router()
 
 import fileUpload from 'express-fileupload'
 
-cardsrouterrouter.get('/cards', getCardsen)
-cardsrouterrouter.post('/cards', fileUpload({
+cardsrouter.get('/cards', getCardsen)
+cardsrouter.post('/cards', fileUpload({
   useTempFiles: true, tempFileDir: './uploads'
 }), createCardsen)
-cardsrouterrouter.put('/cards/:id', updateCardsen)
-cardsrouterrouter.delete('/cards/:id', deleteCardsen)
-cardsrouterrouter.get('/cards/:id', getCarden)
+cardsrouter.put('/cards/:id', updateCardsen)
+cardsrouter.delete('/cards/:id', deleteCardsen)
+cardsrouter.get('/cards/:id', getCarden)
 
 
 export default cardsrouter
