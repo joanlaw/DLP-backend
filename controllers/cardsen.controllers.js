@@ -42,8 +42,11 @@ export const createCardsen = async (req, res) => {
       lote,
       adicional,
       fecha_lanzamiento,
-      image: {} // Dejar el campo "image" inicialmente vacío
+      image: {
+        secure_url: "" // Dejar el campo "secure_url" inicialmente vacío
+      }
     });
+    
 
     await cards.save();
     res.json(cards);
