@@ -13,7 +13,7 @@ import { connectToDB } from './utils/mongoose.js'
 //}).listen(app.get('port'), function(){
  // console.log('Corriendo en puerto', app.get('port'));
 //});
-
+//
 async function main() {
   await connectToDB()
   app.listen(process.env.PORT || 4000)
