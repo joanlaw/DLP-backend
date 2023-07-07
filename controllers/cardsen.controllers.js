@@ -1,5 +1,5 @@
 import { truncateSync } from 'fs';
-import Carta from '../models/card.model.js'
+import Card from '../models/carden.model.js'
 import { uploadImage, deleteImage } from '../utils/cloudinary.js'
 import fs from 'fs-extra'
 
@@ -7,8 +7,8 @@ import fs from 'fs-extra'
 //METODO GET 
 export const getCardsen = async (req, res) => {
   try {
-    const cartas = await Carta.find();
-    res.json(cartas)
+    const cards = await Card.find();
+    res.json(cards)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -19,11 +19,11 @@ export const createCardsen = async (req, res) => {
 
   try {
 
-    const { nombre, name, tipo_de_carta, atributo, tipo, tipo_magica_trampa, nivel_rango_link, escala, rareza, limitacion, atk, def, materiales, descripcion, efecto_pendulo, caja, estructura, selection_box, lote, adicional, fecha_lanzamiento } = req.body
+    const { nombre, name_english, tipo_de_carta, atributo, tipo, tipo_magica_trampa, nivel_rango_link, escala, rareza, limitacion, atk, def, materiales, descripcion, efecto_pendulo, caja, estructura, selection_box, lote, adicional, fecha_lanzamiento } = req.body
 
-    const cartas = new Carta({
+    const cards = new Card({
       nombre,
-      name,
+      name_english,
       tipo_de_carta,
       atributo,
       tipo,
@@ -54,8 +54,8 @@ export const createCardsen = async (req, res) => {
       await fs.unlink(req.files.image.tempFilePath)
 
     }
-    await cartas.save()
-    res.json(cartas)
+    await cards.save()
+    res.json(cards)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -69,18 +69,18 @@ export const deleteCardsen = async (req, res) => {
 
   try {
 
-    const cartas = await
-      Carta.findByIdAndDelete(req.params.id)
+    const cards = await
+      Card.findByIdAndDelete(req.params.id)
 
-    if (!cartas) return res.status(404).json({
+    if (!cards) return res.status(404).json({
       message: 'La carta no existe'
     })
 
-    if (cartas.image?.public_id) {
+    if (cards.image?.public_id) {
       await deleteImage(product.image.public_id)
     }
 
-    return res.json(cartas)
+    return res.json(cards)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -94,15 +94,15 @@ export const getCarden = async (req, res) => {
 
   try {
 
-    const cartas = await
-      Carta.findById(req.params.id)
+    const cards = await
+      Card.findById(req.params.id)
      // Carta.findById(req.params.nombre)
 
-    if (!cartas) return res.status(404).json({
+    if (!cards) return res.status(404).json({
       message: 'La carta no existe'
     })
 
-    return res.json(cartas)
+    return res.json(cards)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -118,7 +118,7 @@ export const updateCardsen = async (req, res) => {
 
     const { id } = req.params;
     const cardsUpdate = await
-      Carta.findByIdAndUpdate(id, req.body, {
+      Card.findByIdAndUpdate(id, req.body, {
         new: true
       })
 
