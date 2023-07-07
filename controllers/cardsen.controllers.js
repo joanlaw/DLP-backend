@@ -45,19 +45,19 @@ export const createCardsen = async (req, res) => {
       fecha_lanzamiento
     })
 
-    if (req.files?.image) {
-      const result = await uploadImage(req.files.image.tempFilePath)
+    if (req.files && req.files.image) {
+      const result = await uploadImage(req.files.image.tempFilePath);
       cards.image = {
         public_id: result.public_id,
         secure_url: result.secure_url
-      }
-      await fs.unlink(req.files.image.tempFilePath)
-
+      };
+      await fs.unlink(req.files.image.tempFilePath);
     }
-    await cards.save()
-    res.json(cards)
+
+    await cards.save();
+    res.json(cards);
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message });
   }
 
 
