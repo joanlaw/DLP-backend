@@ -15,12 +15,11 @@ export const getCardsen = async (req, res) => {
 }
 
 //METODO POST
+//METODO POST
 export const createCardsen = async (req, res) => {
-
   try {
-
-    const { nombre, name_english, tipo_de_carta, atributo, tipo, tipo_magica_trampa, nivel_rango_link, escala, rareza, limitacion, atk, def, materiales, descripcion, efecto_pendulo, caja, estructura, selection_box, lote, adicional, fecha_lanzamiento } = req.body
-
+    const { nombre, name_english, tipo_de_carta, atributo, tipo, tipo_magica_trampa, nivel_rango_link, escala, rareza, limitacion, atk, def, materiales, descripcion, efecto_pendulo, caja, estructura, selection_box, lote, adicional, fecha_lanzamiento } = req.body;
+    
     const cards = new Card({
       nombre,
       name_english,
@@ -42,26 +41,17 @@ export const createCardsen = async (req, res) => {
       selection_box,
       lote,
       adicional,
-      fecha_lanzamiento
-    })
-
-    if (req.files && req.files.image) {
-      const result = await uploadImage(req.files.image.tempFilePath);
-      cards.image = {
-        public_id: result.public_id,
-        secure_url: result.secure_url
-      };
-      await fs.unlink(req.files.image.tempFilePath);
-    }
+      fecha_lanzamiento,
+      image: {} // Dejar el campo "image" inicialmente vacío
+    });
 
     await cards.save();
     res.json(cards);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-
-
 }
+
 
 //METODO DELETE
 export const deleteCardsen = async (req, res) => {
