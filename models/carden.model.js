@@ -3,12 +3,12 @@ import mongoose from 'mongoose'
 const cardSchema = mongoose.Schema({
   nombre: {
     type: String,
-    unique: true,
+    //unique: true,
     trim: true
   },
   name_english: {
     type: String,
-    unique: true,
+   // unique: true,
     trim: true
   },
   tipo_de_carta: {
