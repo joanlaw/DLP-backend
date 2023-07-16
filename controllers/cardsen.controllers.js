@@ -95,30 +95,30 @@ export const deleteCardsen = async (req, res) => {
 }
 
 
-//METODO GET UNA CARTA
-export const getCarden = async (req, res) => {
-  try {
-    const { id } = req.params;
+  //METODO GET UNA CARTA
+  export const getCarden = async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    let card;
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      card = await Card.findById(id);
-    } else {
-      card = await Card.findOne({ 
-        $or: [
-          { nombre: id },
-          { name_english: id }
-        ] 
-      });
+      let card;
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        card = await Card.findById(id);
+      } else {
+        card = await Card.findOne({ 
+          $or: [
+            { nombre: id },
+            { name_english: id }
+          ] 
+        });
+      }
+
+      if (!card) return res.status(404).json({ message: 'La carta no existe' });
+
+      return res.json(card);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
     }
-
-    if (!card) return res.status(404).json({ message: 'La carta no existe' });
-
-    return res.json(card);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+  };
 
 
 
