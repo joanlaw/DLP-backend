@@ -7,20 +7,27 @@ import fs from 'fs-extra'
 //METODO GET 
 export const getCardsen = async (req, res) => {
   try {
-    const page = parseInt(req.query.page || '0');
-    const pageSize = parseInt(req.query.size || '10');
+    const { page = 1, size = 50, search = '' } = req.query;
 
-    const cards = await Card.find().skip(page * pageSize).limit(pageSize);
-    const total = await Card.countDocuments();
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(size, 10)
+    };
 
-    res.json({ totalPages: Math.ceil(total / pageSize), currentPage: page, cards })
+    const query = {
+      $or: [
+        { nombre: { $regex: search, $options: 'i' } },
+        { name_english: { $regex: search, $options: 'i' } }
+      ]
+    };
+
+    const cards = await Card.paginate(query, options);
+    res.send(cards);
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message });
   }
-}
+};
 
-
-//METODO POST
 //METODO POST
 export const createCardsen = async (req, res) => {
   try {
