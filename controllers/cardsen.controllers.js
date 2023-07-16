@@ -2,6 +2,7 @@ import { truncateSync } from 'fs';
 import Card from '../models/carden.model.js'
 import { uploadImage, deleteImage } from '../utils/cloudinary.js'
 import fs from 'fs-extra'
+import mongoose from 'mongoose';
 
 
 //METODO GET 
@@ -98,27 +99,22 @@ export const deleteCardsen = async (req, res) => {
 export const getCarden = async (req, res) => {
   try {
     const { id } = req.params;
-    let cards = null;
 
-    // Intentamos buscar la carta por id
-    if (id) {
-      cards = await Card.findById(id);
+    let card;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      card = await Card.findById(id);
+    } else {
+      card = await Card.findOne({ 
+        $or: [
+          { nombre: id },
+          { name_english: id }
+        ] 
+      });
     }
 
-    // Si no la encontramos por id, intentamos buscarla por nombre
-    if (!cards) {
-      cards = await Card.findOne({ nombre: id });
-    }
+    if (!card) return res.status(404).json({ message: 'La carta no existe' });
 
-    // Si aún no la encontramos, intentamos buscarla por nombre en inglés
-    if (!cards) {
-      cards = await Card.findOne({ name_english: id });
-    }
-
-    // Si no se encuentra la carta, se retorna un error
-    if (!cards) return res.status(404).json({ message: 'La carta no existe' });
-
-    return res.json(cards);
+    return res.json(card);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
