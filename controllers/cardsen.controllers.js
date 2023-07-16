@@ -7,19 +7,13 @@ import fs from 'fs-extra'
 //METODO GET 
 export const getCardsen = async (req, res) => {
   try {
-    const cards = await Card.find();
+    const page = parseInt(req.query.page || '0');
+    const pageSize = parseInt(req.query.size || '10');
 
-    // Crear un nuevo array que solo incluye los campos que quieres enviar
-    const partialCards = cards.map(card => ({
-      nombre: card.nombre,
-      name_english: card.name_english,
-      image: {
-        secure_url
-      }
-      // ...otros campos que quieres enviar...
-    }));
+    const cards = await Card.find().skip(page * pageSize).limit(pageSize);
+    const total = await Card.countDocuments();
 
-    res.json(partialCards)
+    res.json({ totalPages: Math.ceil(total / pageSize), currentPage: page, cards })
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -67,7 +61,6 @@ export const createCardsen = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 }
-
 
 //METODO DELETE
 export const deleteCardsen = async (req, res) => {
