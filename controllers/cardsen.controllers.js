@@ -96,24 +96,34 @@ export const deleteCardsen = async (req, res) => {
 
 //METODO GET UNA CARTA
 export const getCarden = async (req, res) => {
-
-
   try {
+    const { id } = req.params;
+    let cards = null;
 
-    const cards = await
-      Card.findById(req.params.id)
-     // Carta.findById(req.params.nombre)
+    // Intentamos buscar la carta por id
+    if (id) {
+      cards = await Card.findById(id);
+    }
 
-    if (!cards) return res.status(404).json({
-      message: 'La carta no existe'
-    })
+    // Si no la encontramos por id, intentamos buscarla por nombre
+    if (!cards) {
+      cards = await Card.findOne({ nombre: id });
+    }
 
-    return res.json(cards)
+    // Si aún no la encontramos, intentamos buscarla por nombre en inglés
+    if (!cards) {
+      cards = await Card.findOne({ name_english: id });
+    }
+
+    // Si no se encuentra la carta, se retorna un error
+    if (!cards) return res.status(404).json({ message: 'La carta no existe' });
+
+    return res.json(cards);
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message });
   }
+};
 
-}
 
 
 
