@@ -8,11 +8,23 @@ import fs from 'fs-extra'
 export const getCardsen = async (req, res) => {
   try {
     const cards = await Card.find();
-    res.json(cards)
+
+    // Crear un nuevo array que solo incluye los campos que quieres enviar
+    const partialCards = cards.map(card => ({
+      nombre: card.nombre,
+      name_english: card.name_english,
+      image: {
+        secure_url
+      }
+      // ...otros campos que quieres enviar...
+    }));
+
+    res.json(partialCards)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
 }
+
 
 //METODO POST
 //METODO POST
