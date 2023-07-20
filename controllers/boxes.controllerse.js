@@ -81,3 +81,32 @@ export const updateBox = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+// METODO GET CAJAS POR ID DE CARTA
+export const getCajasPorIdCarta = async (req, res) => {
+  try {
+    const cartaId = req.query._id;
+
+    // Buscar cajas que contengan la carta con el ID especificado utilizando agregación
+    const cajas = await Box.aggregate([
+      {
+        $match: {
+          $or: [
+            { 'cartas_ur._id': ObjectId(cartaId) },
+            { 'cartas_sr._id': ObjectId(cartaId) },
+            { 'cartas_r._id': ObjectId(cartaId) },
+            { 'cartas_n._id': ObjectId(cartaId) }
+          ]
+        }
+      }
+    ]);
+
+    if (!cajas || cajas.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron cajas con la carta especificada' });
+    }
+
+    return res.json(cajas);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
